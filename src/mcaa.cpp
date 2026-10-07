@@ -76,7 +76,8 @@ mcaa::mcaa(
          p_end_state_filtering,
          p_is_saturation,
          p_is_mom_cons,
-         p_is_val_cons] = io::read_conf(initfile);
+         p_is_val_cons,
+         p_seed] = io::read_conf(initfile);
 
     this->hotspots = p_hotspots;
     this->n_hotspots = p_n_hotspots;
@@ -86,6 +87,7 @@ mcaa::mcaa(
     this->saturation = p_is_saturation;
     this->mom_cons = p_is_mom_cons;
     this->val_cons = p_is_val_cons;
+    this->seed = p_seed;
     this->read_sigmajets_from_file = p_read_sigmajets_from_file;
     this->proton_width_static = p_proton_width_static;
     this->save_endstate_jets = p_save_endstate_jets;
@@ -183,6 +185,7 @@ mcaa::mcaa(
     this->hotspot_width = p_hotspot_width;
 
     this->Tpp = std::make_shared<Tpp_builder>(this->proton_width_2, p_hotspot_width, p_hotspots);
+    this->Tpp->seed = this->seed;
 
     // Parameter for the envelope function:
     // sigma_jet < A*pT^(-power_law)
@@ -844,6 +847,7 @@ auto mcaa::run() -> void
 
     // auto eng = std::make_shared<std::mt19937>(static_cast<ulong>(1));
     auto eng_shared = std::make_shared<std::mt19937>(static_cast<ulong>(std::chrono::system_clock::now().time_since_epoch().count()));
+    helpers::reseed(*eng_shared, this->seed, 5u, 0u);
     std::uniform_real_distribution<double> unirand{0.0, 1.0};
 
     std::vector<io::Coll> collisions_for_reporting;        /////
@@ -1060,6 +1064,8 @@ auto mcaa::run() -> void
                 {
                     continue;
                 }
+                // one random stream per event index: with a seed, the events do not depend on the threads
+                helpers::reseed(*eng, this->seed, 4u, *it);
                 do // while (g_bug_bool)
                 {
                     uint_fast32_t NColl = 0;

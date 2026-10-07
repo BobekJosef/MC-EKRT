@@ -101,6 +101,7 @@ public:
     double nn_min_dist{0.4};                                // (fm) minimum distance between the nucleons in a nucleus
     double mand_s{5020.0 * 5020.0};                         // (GeV^2) mandelstam s for the hard process
     double hotspot_width{0.0};
+    uint_fast64_t seed{0};                                  // random seed, 0 = from the clock (not reproducible)
     double proton_width{0.573};                    // (fm) proton width
     double proton_width_2{0.573 * 0.573};          // (fm^2) proton width squared
     double rad_max{30.0};                          // (fm) nucleons' maximum distance from the center of the nucleus

@@ -38,6 +38,8 @@
 class Tpp_builder
 {
 public:
+    uint_fast64_t seed{0}; // user seed of the table Monte Carlo, 0 = clock (see helpers::reseed)
+
     Tpp_builder() : hotspots(false), proton_width_2(0.0), hs_width_2(0.0), func(nullptr) {}
     Tpp_builder(const double &proton_width_2_, const double &hotspot_width, const bool &hotspots_)
         : hotspots(hotspots_), proton_width_2(proton_width_2_)
@@ -230,6 +232,7 @@ public:
 #pragma omp for
             for (uint_fast8_t block_index = 0; block_index < block_amount; block_index++)
             {
+                helpers::reseed(*eng, this->seed, 1u, block_index);
                 std::vector<double> T_AA_0s(200);
                 for (auto it = block_indexes.begin(); it < block_indexes.end(); it++)
                 {
@@ -285,6 +288,7 @@ public:
 #pragma omp for
             for (uint_fast8_t block_index = 0; block_index < block_amount; block_index++)
             {
+                helpers::reseed(*eng, this->seed, 2u, block_index);
                 std::array<std::array<double, 200>, 25> R_vectors;
                 for (auto it = block_indexes.begin(); it < block_indexes.end(); it++)
                 {
@@ -370,6 +374,7 @@ public:
 #pragma omp for
             for (uint_fast8_t block_index = 0; block_index < block_amount; block_index++)
             {
+                helpers::reseed(*eng, this->seed, 3u, block_index);
                 std::array<std::array<double, 200>, table_size> R_vectors;
                 for (auto it = block_indexes.begin(); it < block_indexes.end(); it++)
                 {

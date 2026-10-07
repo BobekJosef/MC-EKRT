@@ -12,6 +12,7 @@
 #define GENERIC_HELPERS_HPP
 
 #include <limits>
+#include <random>
 #include <vector>
 
 #include "typedefs.hpp"
@@ -19,6 +20,24 @@
 class helpers
 {
 public:
+    // Reseeds a random engine for one unit of work (an event, a table block) from the user seed.
+    // stream separates the independent uses of one seed, index the units of one use. With seed 0
+    // the engine is left as it is (seeded from the clock), so the results are not reproducible.
+    static auto reseed(
+        std::mt19937 &eng,
+        const uint_fast64_t &seed,
+        const uint_fast32_t &stream,
+        const uint_fast64_t &index) noexcept -> void
+    {
+        if (seed == 0)
+        {
+            return;
+        }
+        std::seed_seq seq{static_cast<uint_fast32_t>(seed & 0xffffffffu), static_cast<uint_fast32_t>(seed >> 32),
+                          stream, static_cast<uint_fast32_t>(index & 0xffffffffu), static_cast<uint_fast32_t>(index >> 32)};
+        eng.seed(seq);
+    }
+
     // return an evenly spaced 1d grid of doubles.
     static auto linspace(
         const double &first,

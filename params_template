@@ -53,3 +53,4 @@ end_state_filtering true                # false=no any filtering in the end stat
 is_saturation true                      # If the EKRT saturation should be used
 is_mom_cons true                        # If the momentum conservation should be forced
 is_val_cons true                        # If the valence quark number conservation should be forced
+seed 0                                  # Random seed, 0 = from the clock (not reproducible)

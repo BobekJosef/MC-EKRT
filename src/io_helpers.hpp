@@ -1196,7 +1196,8 @@ public:
         end_state_filtering,
         is_saturation,
         is_mom_cons,
-        is_val_cons
+        is_val_cons,
+        seed
     };
 
     static auto read_conf(
@@ -1249,7 +1250,8 @@ public:
             {"end_state_filtering", end_state_filtering},
             {"is_saturation", is_saturation},
             {"is_mom_cons", is_mom_cons},
-            {"is_val_cons", is_val_cons}};
+            {"is_val_cons", is_val_cons},
+            {"seed", seed}};
         std::string name{"example_name"};
         std::string sigmajet_filename{"example_sigma_jet.dat"};
         bool read_sigmajets_from_file{false};
@@ -1296,6 +1298,7 @@ public:
         bool is_saturation{true};
         bool is_mom_cons{true};
         bool is_val_cons{true};
+        uint_fast64_t seed{0};
 
         uint_fast16_t count = 0;
 
@@ -1464,6 +1467,9 @@ public:
                 case io::Param::is_val_cons:
                     line_stream >> std::boolalpha >> is_val_cons;
                     break;
+                case io::Param::seed:
+                    line_stream >> seed;
+                    break;
                 default:
                     continue;
                 }
@@ -1524,7 +1530,8 @@ public:
             end_state_filtering,
             is_saturation,
             is_mom_cons,
-            is_val_cons);
+            is_val_cons,
+            seed);
     }
 
     static auto print_histos(
