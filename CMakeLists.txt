@@ -72,3 +72,8 @@ target_link_libraries(mcaa PUBLIC
 	-lLHAPDF
 	Parts
 )
+
+# Converter of the end-state minijets into T^{mu nu}(tau0) for KoMPoST3D (see ekrt_to_kompost.cpp)
+add_executable(ekrt_to_kompost ekrt_to_kompost.cpp)
+target_compile_features(ekrt_to_kompost PUBLIC cxx_std_17)
+target_compile_options(ekrt_to_kompost PUBLIC -Wall -O2)
