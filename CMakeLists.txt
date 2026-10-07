@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 3.10)
 project(mcaa CXX)
 
 execute_process(
-	COMMAND bash -c "lhapdf-config --incdir"
+	COMMAND bash -c "lhapdf-config --includedir"
 	OUTPUT_VARIABLE lhapdf_incdir
 )
 string(STRIP ${lhapdf_incdir} lhapdf_incdir)

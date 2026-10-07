@@ -24,7 +24,7 @@ add_library(
 )
 
 execute_process(
-	COMMAND bash -c "lhapdf-config --incdir"
+	COMMAND bash -c "lhapdf-config --includedir"
 	OUTPUT_VARIABLE lhapdf_incdir
 )
 string(STRIP ${lhapdf_incdir} lhapdf_incdir)
