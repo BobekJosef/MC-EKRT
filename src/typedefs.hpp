@@ -15,6 +15,7 @@
 #define FMGEV 5.068
 #endif
 
+#include <algorithm>
 #include <cmath>
 #include <functional>
 #include <iostream>
